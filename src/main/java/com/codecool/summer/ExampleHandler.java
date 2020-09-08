@@ -2,10 +2,12 @@ package com.codecool.summer;
 
 public class ExampleHandler {
 
+    @WebRoute(path = "/hello")
     public static String getHello() {
         return "Hello World!";
     }
 
+    @WebRoute(path = "/lorem")
     public static String getLoremIpsum() {
         return "<h1>What is Lorem Ipsum?</h1></br>" +
                "<p><i>Lorem Ipsum</i> is simply dummy text of the printing and typesetting industry.</p>" +
