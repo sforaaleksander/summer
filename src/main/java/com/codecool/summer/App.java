@@ -1,13 +1,10 @@
 package com.codecool.summer;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+public class App {
+
+    public static void main(String[] args) {
+        Summer summer = new Summer();
+        summer.registerHandlers(ExampleHandler.class);
+        summer.run();
     }
 }
