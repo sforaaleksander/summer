@@ -1,10 +1,7 @@
 package com.codecool.summer;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Summer {
@@ -20,12 +17,17 @@ public class Summer {
      * @param handlerClasses classes with methods annotated with {@link WebRoute}.
      */
     public void registerHandlers(Class<?>... handlerClasses) {
-        Method[] allMethods = ExampleHandler.class.getDeclaredMethods();
-        List<Method> webRouteMethods = Arrays.stream(allMethods)
+        List<Method> allMethods = getAllMethods(handlerClasses);
+        allMethods.stream()
                 .filter(e -> e.getAnnotation(WebRoute.class) != null)
-                .map(e -> handlerMethods.put(e.getAnnotation(WebRoute.class).path(), e))
-                .collect(Collectors.toList());
-        };
+                .forEach(e -> handlerMethods.put(e.getAnnotation(WebRoute.class).path(), e));
+        }
+
+    private List<Method> getAllMethods(Class<?>[] handlerClasses) {
+        List<Method> allMethods = new ArrayList<>();
+        Arrays.stream(handlerClasses).forEach(e -> allMethods.addAll(Arrays.asList(e.getMethods())));
+        return allMethods;
+    }
 
     /**
      * Starts HTTP server, waits for HTTP requests and redirects them to one of registered handler methods.
