@@ -1,6 +1,10 @@
 package com.codecool.summer;
 
+import com.sun.net.httpserver.HttpServer;
+
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.net.InetSocketAddress;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,7 +36,17 @@ public class Summer {
     /**
      * Starts HTTP server, waits for HTTP requests and redirects them to one of registered handler methods.
      */
-    public void run() {
-        // TODO
+    public void run() throws IOException {
+        int port = 8080;
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+        server.createContext("/", new HttpRequestHandler(handlerMethods));
+        server.setExecutor(null);
+        server.start();
+    }
+
+    public void printMethods(){
+        for (Map.Entry<String, Method> entry : handlerMethods.entrySet()) {
+            System.out.println("PATH: " + entry.getKey() + ", METHOD: " + entry.getValue().toString());
+        }
     }
 }
